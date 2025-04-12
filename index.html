@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blox Chronicles</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1e1e2f;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: black;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: flex-start;
+      z-index: 2;
+    }
+
+    a.button {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    a.button:hover {
+      background: #4752c4;
+      transform: scale(1.05);
+    }
+
+    #particles-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: #000000;
+    }
+
+    .container {
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 0.5s;
+      z-index: 1;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      max-width: 90%;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 30px;
+      white-space: nowrap;
+    }
+
+    .glow-icon {
+      position: relative;
+      margin: 0 auto;
+      width: 120px;
+      height: 120px;
+      transform-style: preserve-3d;
+    }
+
+    .glow-icon img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 3px red, 0 0 6px red, 0 0 10px red;
+      transform-style: preserve-3d;
+    }
+
+    .scanner-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .scanner-line {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top: 2px solid limegreen;
+      animation: rotate 2s linear infinite;
+    }
+
+    /* Server Info Panel Styles */
+    .info-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      padding: 12px 25px;
+      background: #5865F2;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 1em;
+    }
+
+    .info-button:hover {
+      background: #4752c4;
+      transform: scale(1.05);
+    }
+
+    .info-panel {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 99;
+      width: 350px;
+      max-height: 70vh;
+      background: rgba(30, 30, 47, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+      border: 1px solid #5865F2;
+      padding: 20px;
+      transform: translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .info-panel.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .info-panel h2 {
+      color: #5865F2;
+      margin-top: 0;
+      border-bottom: 1px solid rgba(88, 101, 242, 0.3);
+      padding-bottom: 10px;
+    }
+
+    .info-panel p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .feature-list {
+      padding-left: 20px;
+    }
+
+    .feature-list li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .feature-list li:before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a class="button" href="https://discord.gg/49md9aHptY" target="_blank">Join Discord</a>
+    <a class="button" href="https://disboard.org/server/1350946757013536818" target="_blank" style="margin-left: 15px;">Disboard</a>
+  </div>
+
+  <div id="particles-js"></div>
+
+  <div class="container">
+    <h1>Welcome to Blox Chronicles</h1>
+    <div class="glow-icon" id="tilt-icon">
+      <img src="https://images-ext-1.discordapp.net/external/v3s_W7oTavItfRzFC-NEhueBERQHpkEBziqdHQcNNGo/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1350946757013536818/33fff25078a8146b62fc87954f442671.png?format=webp&quality=lossless" alt="Icon">
+      <div class="scanner-ring">
+        <div class="scanner-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Server Info Button and Panel -->
+  <button class="info-button" id="infoButton">About Our Server</button>
+  
+  <div class="info-panel" id="infoPanel">
+    <h2>Our Community</h2>
+    <p>We are a welcoming, inclusive community that values every member—whether you're new or have been with us for a while. Our friendly and fair staff team ensures a safe, enjoyable environment with reasonable punishments—neither too strict nor too lenient.</p>
+    
+    <h2>What Makes Us Special?</h2>
+    <ul class="feature-list">
+      <li><strong>Unique Features</strong> – Experience never-before-seen commands, roles, and channels designed to enhance your Discord experience.</li>
+      <li><strong>Regular Updates & Events</strong> – We consistently improve the server and host exciting events for everyone to enjoy.</li>
+      <li><strong>No One Left Behind</strong> – Whether you're active daily or pop in occasionally, our features ensure everyone feels included.</li>
+      <li><strong>Engagement & Fun</strong> – We push boundaries to create a fresh, engaging Discord experience unlike any other.</li>
+    </ul>
+    
+    <p>We're committed to making this server a fun, safe, and welcoming space for all—and we can't wait for you to be part of it!</p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 114, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" },
+          "polygon": { "nb_sides": 5 }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false,
+          "anim": { "enable": false }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { "enable": false }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 6,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "grab": { "distance": 400, "line_linked": { "opacity": 1 } },
+          "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
+          "repulse": { "distance": 200, "duration": 0.4 },
+          "push": { "particles_nb": 4 },
+          "remove": { "particles_nb": 2 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Vanilla Tilt initialization
+    VanillaTilt.init(document.querySelector("#tilt-icon"), {
+      max: 25,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.3
+    });
+
+    // Info panel toggle
+    const infoButton = document.getElementById('infoButton');
+    const infoPanel = document.getElementById('infoPanel');
+
+    infoButton.addEventListener('click', function() {
+      infoPanel.classList.toggle('active');
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!infoPanel.contains(event.target) && event.target !== infoButton) {
+        infoPanel.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

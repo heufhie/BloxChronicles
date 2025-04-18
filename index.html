@@ -8,12 +8,10 @@
     body {
       margin: 0;
       padding: 0;
-      background: #1e1e2f;
+      background: #0a0a12;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
+      overflow-x: hidden;
       cursor: default;
     }
 
@@ -21,37 +19,106 @@
       position: sticky;
       top: 0;
       width: 100%;
-      background: black;
+      background: rgba(0, 0, 0, 0.8);
       padding: 15px 30px;
       display: flex;
       justify-content: flex-start;
       z-index: 2;
+      backdrop-filter: blur(5px);
     }
 
-    a.button {
+    a.button, .member-count {
       display: inline-block;
       padding: 12px 25px;
-      background: #5865F2;
-      color: white;
+      color: #0a0a12;
       text-decoration: none;
       border-radius: 10px;
       font-size: 1em;
-      transition: background 0.3s ease, transform 0.2s ease;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-left: 15px;
+    }
+
+    a.button {
+      background: #00c3ff;
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
     }
 
     a.button:hover {
-      background: #4752c4;
+      background: #00a3d9;
       transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.8);
     }
 
-    #particles-js {
+    .member-count {
+      background: #00c3ff;
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+      cursor: pointer;
+      position: relative;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .member-count:before {
+      content: "Member Count";
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .member-count:after {
+      content: "25 Members";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .member-count:hover:before {
+      opacity: 0;
+    }
+
+    .member-count:hover:after {
+      opacity: 1;
+    }
+
+    .member-count:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.8);
+      background: #00a3d9;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
-      background: #000000;
+      background: linear-gradient(to bottom, #000000 0%, #0a0a12 100%);
+    }
+
+    .hero-section {
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 50px;
     }
 
     .container {
@@ -60,18 +127,17 @@
       animation: fadeIn 2s ease forwards;
       animation-delay: 0.5s;
       z-index: 1;
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: auto;
-      max-width: 90%;
     }
 
     h1 {
       font-size: 3em;
       margin-bottom: 30px;
       white-space: nowrap;
+      background: linear-gradient(90deg, #00c3ff, #00ff95);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
     }
 
     .glow-icon {
@@ -86,7 +152,7 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: 0 0 3px red, 0 0 6px red, 0 0 10px red;
+      box-shadow: 0 0 10px #00c3ff, 0 0 20px #00c3ff, 0 0 30px rgba(0, 195, 255, 0.5);
       transform-style: preserve-3d;
     }
 
@@ -106,67 +172,46 @@
       height: 100%;
       border-radius: 50%;
       border: 2px solid transparent;
-      border-top: 2px solid limegreen;
+      border-top: 2px solid #00ff95;
       animation: rotate 2s linear infinite;
     }
 
-    /* Server Info Panel Styles */
-    .info-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-      padding: 12px 25px;
-      background: #5865F2;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-      font-size: 1em;
-    }
-
-    .info-button:hover {
-      background: #4752c4;
-      transform: scale(1.05);
-    }
-
-    .info-panel {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      z-index: 99;
-      width: 350px;
-      max-height: 70vh;
-      background: rgba(30, 30, 47, 0.95);
+    /* Info Section Styles */
+    .info-section {
+      padding: 50px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      background: rgba(10, 10, 18, 0.8);
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      overflow-y: auto;
-      backdrop-filter: blur(10px);
-      border: 1px solid #5865F2;
-      padding: 20px;
-      transform: translateY(20px);
+      box-shadow: 0 0 30px rgba(0, 195, 255, 0.2);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(0, 195, 255, 0.3);
+      transform: translateY(50px);
       opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.8s ease;
+      margin-bottom: 50px;
     }
 
-    .info-panel.active {
+    .info-section.visible {
       transform: translateY(0);
       opacity: 1;
-      visibility: visible;
     }
 
-    .info-panel h2 {
-      color: #5865F2;
+    .info-section h2 {
+      color: #00c3ff;
       margin-top: 0;
-      border-bottom: 1px solid rgba(88, 101, 242, 0.3);
+      border-bottom: 1px solid rgba(0, 195, 255, 0.3);
       padding-bottom: 10px;
+      font-size: 1.8em;
     }
 
-    .info-panel p {
-      line-height: 1.6;
+    .info-section p {
+      line-height: 1.5;
       margin-bottom: 15px;
+      color: #e0f7ff;
+      font-size: 1em;
     }
 
     .feature-list {
@@ -174,15 +219,25 @@
     }
 
     .feature-list li {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       position: relative;
       padding-left: 25px;
+      color: #b8f2ff;
+      font-size: 0.95em;
     }
 
     .feature-list li:before {
-      content: "✅";
+      content: "✓";
       position: absolute;
       left: 0;
+      color: #00ff95;
+      font-weight: bold;
+    }
+
+    .spacer {
+      height: 30vh;
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes fadeIn {
@@ -198,25 +253,26 @@
 <body>
   <div class="top-bar">
     <a class="button" href="https://discord.gg/49md9aHptY" target="_blank">Join Discord</a>
-    <a class="button" href="https://disboard.org/server/1350946757013536818" target="_blank" style="margin-left: 15px;">Disboard</a>
+    <a class="button" href="https://disboard.org/server/1350946757013536818" target="_blank">Disboard</a>
+    <div class="member-count"></div>
   </div>
 
   <div id="particles-js"></div>
 
-  <div class="container">
-    <h1>Welcome to Blox Chronicles</h1>
-    <div class="glow-icon" id="tilt-icon">
-      <img src="https://images-ext-1.discordapp.net/external/v3s_W7oTavItfRzFC-NEhueBERQHpkEBziqdHQcNNGo/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1350946757013536818/33fff25078a8146b62fc87954f442671.png?format=webp&quality=lossless" alt="Icon">
-      <div class="scanner-ring">
-        <div class="scanner-line"></div>
+  <section class="hero-section">
+    <div class="container">
+      <h1>Welcome to Blox Chronicles</h1>
+      <div class="glow-icon" id="tilt-icon">
+        <img src="https://images-ext-1.discordapp.net/external/v3s_W7oTavItfRzFC-NEhueBERQHpkEBziqdHQcNNGo/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1350946757013536818/33fff25078a8146b62fc87954f442671.png?format=webp&quality=lossless" alt="Icon">
+        <div class="scanner-ring">
+          <div class="scanner-line"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Server Info Button and Panel -->
-  <button class="info-button" id="infoButton">About Our Server</button>
-  
-  <div class="info-panel" id="infoPanel">
+  <!-- Info Section -->
+  <section class="info-section" id="infoSection">
     <h2>Our Community</h2>
     <p>We are a welcoming, inclusive community that values every member—whether you're new or have been with us for a while. Our friendly and fair staff team ensures a safe, enjoyable environment with reasonable punishments—neither too strict nor too lenient.</p>
     
@@ -229,7 +285,7 @@
     </ul>
     
     <p>We're committed to making this server a fun, safe, and welcoming space for all—and we can't wait for you to be part of it!</p>
-  </div>
+  </section>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js"></script>
@@ -237,8 +293,8 @@
   <script>
     particlesJS("particles-js", {
       "particles": {
-        "number": { "value": 114, "density": { "enable": true, "value_area": 800 } },
-        "color": { "value": "#ffffff" },
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#00c3ff" },
         "shape": {
           "type": "circle",
           "stroke": { "width": 0, "color": "#000000" },
@@ -257,13 +313,13 @@
         "line_linked": {
           "enable": true,
           "distance": 150,
-          "color": "#ffffff",
-          "opacity": 0.4,
+          "color": "#00c3ff",
+          "opacity": 0.2,
           "width": 1
         },
         "move": {
           "enable": true,
-          "speed": 6,
+          "speed": 3,
           "direction": "none",
           "random": false,
           "straight": false,
@@ -279,7 +335,7 @@
           "resize": true
         },
         "modes": {
-          "grab": { "distance": 400, "line_linked": { "opacity": 1 } },
+          "grab": { "distance": 400, "line_linked": { "opacity": 0.5 } },
           "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
           "repulse": { "distance": 200, "duration": 0.4 },
           "push": { "particles_nb": 4 },
@@ -297,20 +353,21 @@
       "max-glare": 0.3
     });
 
-    // Info panel toggle
-    const infoButton = document.getElementById('infoButton');
-    const infoPanel = document.getElementById('infoPanel');
-
-    infoButton.addEventListener('click', function() {
-      infoPanel.classList.toggle('active');
-    });
-
-    // Close panel when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!infoPanel.contains(event.target) && event.target !== infoButton) {
-        infoPanel.classList.remove('active');
+    // Scroll animations
+    function checkScroll() {
+      const infoSection = document.getElementById('infoSection');
+      
+      const infoSectionTop = infoSection.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (infoSectionTop < windowHeight * 0.75) {
+        infoSection.classList.add('visible');
       }
-    });
+    }
+    
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
+console.log("Hello")
   </script>
 </body>
 </html>
